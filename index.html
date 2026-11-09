@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dataway — голосовий помічник</title>
+<meta name="description" content="Портативний голосовий помічник, що відкриває нові можливості кожного дня.">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{--green:#2f7a5b;--mint:#cfe8dc;--ink:#151515;--muted:#5d6461;--line:#e6e9e7}
+  html{scroll-behavior:smooth}
+  body{font-family:"Manrope","Inter",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.5}
+  a{color:inherit;text-decoration:none}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+  /* Header */
+  header{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:20px}
+  .logo svg{width:26px;height:26px}
+  .menu{display:flex;gap:28px;font-size:15px;color:#2b4b8f}
+  .menu a:hover{color:var(--green)}
+  .menu .dd::after{content:"";display:inline-block;width:6px;height:6px;margin-left:6px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:translateY(-3px) rotate(45deg)}
+  .cta-top{font-size:15px}
+  .burger{display:none;background:none;border:0;font-size:26px;cursor:pointer}
+
+  /* Hero */
+  .hero{position:relative;min-height:min(calc(100vh - 64px),760px);display:flex;align-items:flex-end;overflow:hidden;color:#e3f4ea}
+  .hero::before{content:"";position:absolute;inset:0;background:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNjAwIDkwMCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgc2xpY2UiPgo8ZGVmcz48cmFkaWFsR3JhZGllbnQgaWQ9ImgiIGN4PSI3NSUiIGN5PSI0NSUiIHI9IjcwJSI+PHN0b3Agb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjNGY5YTc4Ii8+PHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMWQ0YTM4Ii8+PC9yYWRpYWxHcmFkaWVudD48L2RlZnM+CjxyZWN0IHdpZHRoPSIxNjAwIiBoZWlnaHQ9IjkwMCIgZmlsbD0idXJsKCNoKSIvPgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiNiZmU4ZDQiPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9IjEyMCIgc3Ryb2tlLXdpZHRoPSI0IiBvcGFjaXR5PSIwLjM1MCIvPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9IjIzMCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjMwNSIvPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9IjM0MCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjI2MCIvPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9IjQ1MCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjIxNSIvPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9IjU2MCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjE3MCIvPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9IjY3MCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjEyNSIvPjxjaXJjbGUgY3g9IjExODAiIGN5PSI0MDAiIHI9Ijc4MCIgc3Ryb2tlLXdpZHRoPSIzIiBvcGFjaXR5PSIwLjA4MCIvPjwvZz4KPHJlY3QgeD0iMTExMCIgeT0iMjcwIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjI2MCIgcng9IjcwIiBmaWxsPSIjMTYzYTJjIiBvcGFjaXR5PSIuODUiLz4KPGcgZmlsbD0iIzdmYzRhMyIgb3BhY2l0eT0iLjgiPjxjaXJjbGUgY3g9IjExNTAiIGN5PSIzODAiIHI9IjYiLz48Y2lyY2xlIGN4PSIxMTgwIiBjeT0iMzgwIiByPSI2Ii8+PGNpcmNsZSBjeD0iMTIxMCIgY3k9IjM4MCIgcj0iNiIvPjxjaXJjbGUgY3g9IjExNTAiIGN5PSI0MTAiIHI9IjYiLz48Y2lyY2xlIGN4PSIxMTgwIiBjeT0iNDEwIiByPSI2Ii8+PGNpcmNsZSBjeD0iMTIxMCIgY3k9IjQxMCIgcj0iNiIvPjxjaXJjbGUgY3g9IjExNTAiIGN5PSI0NDAiIHI9IjYiLz48Y2lyY2xlIGN4PSIxMTgwIiBjeT0iNDQwIiByPSI2Ii8+PGNpcmNsZSBjeD0iMTIxMCIgY3k9IjQ0MCIgcj0iNiIvPjxjaXJjbGUgY3g9IjExNTAiIGN5PSI0NzAiIHI9IjYiLz48Y2lyY2xlIGN4PSIxMTgwIiBjeT0iNDcwIiByPSI2Ii8+PGNpcmNsZSBjeD0iMTIxMCIgY3k9IjQ3MCIgcj0iNiIvPjwvZz4KPGNpcmNsZSBjeD0iMTE4MCIgY3k9IjMyMCIgcj0iMTMiIGZpbGw9IiM5ZmUwYzAiLz48L3N2Zz4=) center/cover no-repeat;}
+  .hero::after{content:"";position:absolute;inset:0;background:rgba(20,60,44,.25)}
+  .hero .wrap{position:relative;z-index:1;width:100%;display:grid;grid-template-columns:1.3fr 1fr;gap:32px;align-items:end;padding-top:48px;padding-bottom:56px}
+  .hero h1{font-weight:200;font-size:clamp(38px,8.5vw,112px);line-height:1.02;letter-spacing:-.02em}
+  .hero p{font-size:16px;max-width:340px;margin-bottom:24px}
+  .btns{display:flex;gap:12px;flex-wrap:wrap}
+  .btn{display:inline-block;padding:12px 20px;border-radius:10px;font-size:15px;transition:.2s}
+  .btn-light{background:#d7efe3;color:#163a2b}
+  .btn-light:hover{background:#fff}
+  .btn-ghost{border:1px solid rgba(255,255,255,.75);color:#fff}
+  .btn-ghost:hover{background:rgba(255,255,255,.12)}
+
+  /* Cards */
+  .features{padding:96px 0}
+  .features .wrap{display:grid;grid-template-columns:270px 1fr;gap:32px}
+  .eyebrow{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin-bottom:16px}
+  .features h2{font-weight:400;font-size:26px;line-height:1.25;margin-bottom:10px}
+  .lead{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:40px 16px}
+  .card img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:12px;margin-bottom:14px}
+  .tag{font-size:13px;color:#2b4b8f;margin-bottom:24px}
+  .card h3{font-weight:400;font-size:24px;line-height:1.2;margin-bottom:8px}
+  .card p{font-size:14px;color:var(--muted)}
+
+  /* AI block */
+  .ai{padding:80px 0}
+  .ai .wrap{display:flex;justify-content:space-between;align-items:center;gap:32px;flex-wrap:wrap}
+  .ai h2{font-weight:200;font-size:clamp(44px,7vw,84px);line-height:1.05;letter-spacing:-.02em}
+  .ai .side p{color:var(--muted);margin-bottom:16px}
+  .ai .side a{font-size:14px;border-bottom:1px solid currentColor}
+
+  /* FAQ */
+  .faq{padding:80px 0 96px}
+  .faq .wrap{max-width:860px}
+  .faq h2{text-align:center;font-weight:500;font-size:24px}
+  .faq .sub{text-align:center;color:var(--muted);font-size:14px;margin:6px 0 32px}
+  details{border-bottom:1px solid var(--line);padding:18px 0}
+  summary{cursor:pointer;list-style:none;font-size:18px;display:flex;justify-content:space-between;gap:16px}
+  summary::-webkit-details-marker{display:none}
+  summary::after{content:"+";color:var(--muted);font-size:22px;line-height:1}
+  details[open] summary::after{content:"−"}
+  details p{color:var(--muted);font-size:14px;margin-top:10px}
+  .help{text-align:center;margin-top:40px;font-size:14px}
+  .help .btn{border:1px solid #333;margin-top:12px;color:var(--ink)}
+  .help .btn:hover{background:var(--ink);color:#fff}
+
+  footer{border-top:1px solid var(--line);padding:24px 0;font-size:13px;color:var(--muted)}
+
+  @media (max-width:860px){
+    .menu,.cta-top{display:none}
+    .burger{display:block}
+    .menu.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:#fff;padding:16px 24px;border-bottom:1px solid var(--line);gap:14px}
+    .hero .wrap{grid-template-columns:1fr}
+    .features .wrap{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a href="#" class="logo" aria-label="Dataway">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="6" fill="#111"/><path d="M13 4c.6 4.6 4.4 8.4 9 9-4.6.6-8.4 4.4-9 9-.6-4.6-4.4-8.4-9-9 4.6-.6 8.4-4.4 9-9z" fill="#fff"/></svg>
+      Dataway
+    </a>
+    <nav class="menu" id="menu">
+      <a href="#features" class="dd">Рішення</a>
+      <a href="#ai">Проєкт</a>
+      <a href="#features">Новини</a>
+      <a href="#faq" class="dd">Підтримка</a>
+    </nav>
+    <a href="#faq" class="cta-top">Почати</a>
+    <button class="burger" aria-label="Меню" onclick="document.getElementById('menu').classList.toggle('open')">☰</button>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>Ваш голосовий помічник у повсякденному житті</h1>
+    <div>
+      <p>Портативний пристрій, що відкриває нові можливості кожного дня</p>
+      <div class="btns">
+        <a href="#features" class="btn btn-light">Дізнатися більше</a>
+        <a href="#faq" class="btn btn-ghost">Замовити консультацію</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Світ стає доступнішим</div>
+      <h2>Ваш голосовий помічник поруч з вами</h2>
+      <p class="lead">Перший крок до незалежності — просто скажіть</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNDAwIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj48c3RvcCBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNlNGYzZWMiLz48c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiNiZmUwY2YiLz48L2xpbmVhckdyYWRpZW50PjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjYwMCIgaGVpZ2h0PSI0MDAiIGZpbGw9InVybCgjZykiLz4KPGVsbGlwc2UgY3g9IjI1MCIgY3k9IjMzMCIgcng9IjExMCIgcnk9IjE2IiBmaWxsPSIjMmY3YTViIiBvcGFjaXR5PSIuMTUiLz4KPHJlY3QgeD0iMTcwIiB5PSIxMTAiIHdpZHRoPSIxNjAiIGhlaWdodD0iMjIwIiByeD0iNzAiIGZpbGw9IiMxZjNiMzAiLz4KPHJlY3QgeD0iMTg2IiB5PSIxMjYiIHdpZHRoPSIxMjgiIGhlaWdodD0iMTg4IiByeD0iNjAiIGZpbGw9IiMyYjU0NDQiLz4KPGcgZmlsbD0iIzdmYzRhMyI+PGNpcmNsZSBjeD0iMjE1IiBjeT0iMjAwIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjM5IiBjeT0iMjAwIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjYzIiBjeT0iMjAwIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjg3IiBjeT0iMjAwIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjE1IiBjeT0iMjI0IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjM5IiBjeT0iMjI0IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjYzIiBjeT0iMjI0IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjg3IiBjeT0iMjI0IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjE1IiBjeT0iMjQ4IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjM5IiBjeT0iMjQ4IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjYzIiBjeT0iMjQ4IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjg3IiBjeT0iMjQ4IiByPSI1Ii8+PGNpcmNsZSBjeD0iMjE1IiBjeT0iMjcyIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjM5IiBjeT0iMjcyIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjYzIiBjeT0iMjcyIiByPSI1Ii8+PGNpcmNsZSBjeD0iMjg3IiBjeT0iMjcyIiByPSI1Ii8+PC9nPgo8Y2lyY2xlIGN4PSIyNTAiIGN5PSIxNjAiIHI9IjEyIiBmaWxsPSIjOWZlMGMwIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJmN2E1YiIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiPgo8cGF0aCBkPSJNMzYwIDE3MCBRMzg1IDIyMCAzNjAgMjcwIi8+PHBhdGggZD0iTTM5NSAxNDAgUTQzNSAyMjAgMzk1IDMwMCIgb3BhY2l0eT0iLjciLz48cGF0aCBkPSJNNDMwIDExMCBRNDg1IDIyMCA0MzAgMzMwIiBvcGFjaXR5PSIuNCIvPjwvZz48L3N2Zz4=" alt="Голосовий пристрій">
+        <div class="tag">Дизайн</div>
+        <h3>Прогресивний розвиток</h3>
+        <p>Доступні можливості</p>
+      </article>
+      <article class="card">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNDAwIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2NmZTZmNSIvPgo8Y2lyY2xlIGN4PSI0ODAiIGN5PSI4MCIgcj0iMTIwIiBmaWxsPSIjZTNmMWZhIi8+CjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFmM2IzMCIgc3Ryb2tlLXdpZHRoPSI3IiBzdHJva2UtbGluZWNhcD0icm91bmQiPgo8cGF0aCBkPSJNMTkwIDEwMCBoLTQwIHY0MCIvPjxwYXRoIGQ9Ik00MTAgMTAwIGg0MCB2NDAiLz48cGF0aCBkPSJNMTkwIDMyMCBoLTQwIHYtNDAiLz48cGF0aCBkPSJNNDEwIDMyMCBoNDAgdi00MCIvPjwvZz4KPHBhdGggZD0iTTI0MCAxNzAgaDExMCBsLTEwIDEyMCBhMTIgMTIgMCAwIDEgLTEyIDExIGgtNjYgYTEyIDEyIDAgMCAxIC0xMiAtMTEgeiIgZmlsbD0iI2Y0ZjhmYiIgc3Ryb2tlPSIjMWYzYjMwIiBzdHJva2Utd2lkdGg9IjUiLz4KPHBhdGggZD0iTTM1MCAxOTUgcTQwIDUgMzIgNDAgcS02IDI4IC0zOCAyNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWYzYjMwIiBzdHJva2Utd2lkdGg9IjUiLz4KPGcgc3Ryb2tlPSIjOGZiM2M5IiBzdHJva2Utd2lkdGg9IjQiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgZmlsbD0ibm9uZSI+PHBhdGggZD0iTTI3MCAxNTAgcS04IC0xNCAwIC0yOCIvPjxwYXRoIGQ9Ik0yOTYgMTUwIHEtOCAtMTQgMCAtMjgiLz48cGF0aCBkPSJNMzIyIDE1MCBxLTggLTE0IDAgLTI4Ii8+PC9nPgo8cmVjdCB4PSIzMDAiIHk9IjI0IiB3aWR0aD0iMTUwIiBoZWlnaHQ9IjU0IiByeD0iMjciIGZpbGw9IiMyZjdhNWIiLz4KPHBhdGggZD0iTTMzMCA3NiBsLTggMjAgbDI2IC0yMHoiIGZpbGw9IiMyZjdhNWIiLz4KPHRleHQgeD0iMzc1IiB5PSI1OSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsLHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjQiIGZpbGw9IiNmZmYiPsKr0KfQsNGI0LrQsMK7PC90ZXh0Pjwvc3ZnPg==" alt="Розпізнавання предметів">
+        <div class="tag">Маркетинг</div>
+        <h3>Впевнені рішення</h3>
+        <p>Sales</p>
+      </article>
+      <article class="card">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNDAwIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2ZkZTdkNiIvPgo8Y2lyY2xlIGN4PSI5MCIgY3k9IjcwIiByPSI5MCIgZmlsbD0iI2ZmZjFlNiIvPgo8cGF0aCBkPSJNMTEwIDMwMCBDMTYwIDI1MCAxODAgMjMwIDIyMCAyMzAgUzI5MCAyODAgMzMwIDI3MCBTNDIwIDE5MCA0NTAgMTcwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlOGE1N2EiIHN0cm9rZS13aWR0aD0iOCIgc3Ryb2tlLWRhc2hhcnJheT0iMiAxOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CjxjaXJjbGUgY3g9IjExMCIgY3k9IjMwMCIgcj0iMjYiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzJmN2E1YiIgc3Ryb2tlLXdpZHRoPSI1Ii8+PHRleHQgeD0iMTEwIiB5PSIzMDkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMmY3YTViIj4xPC90ZXh0PjxjaXJjbGUgY3g9IjIyMCIgY3k9IjIzMCIgcj0iMjYiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzJmN2E1YiIgc3Ryb2tlLXdpZHRoPSI1Ii8+PHRleHQgeD0iMjIwIiB5PSIyMzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMmY3YTViIj4yPC90ZXh0PjxjaXJjbGUgY3g9IjMzMCIgY3k9IjI3MCIgcj0iMjYiIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzJmN2E1YiIgc3Ryb2tlLXdpZHRoPSI1Ii8+PHRleHQgeD0iMzMwIiB5PSIyNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjMmY3YTViIj4zPC90ZXh0PjxjaXJjbGUgY3g9IjQ1MCIgY3k9IjE3MCIgcj0iMjYiIGZpbGw9IiMyZjdhNWIiIHN0cm9rZT0iIzJmN2E1YiIgc3Ryb2tlLXdpZHRoPSI1Ii8+PHRleHQgeD0iNDUwIiB5PSIxNzkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjI0IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj40PC90ZXh0Pgo8ZyBmaWxsPSJub25lIiBzdHJva2U9IiMyZjdhNWIiIHN0cm9rZS13aWR0aD0iNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIj48cGF0aCBkPSJNNDkwIDE0MCBxMTQgMzAgMCA2MCIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCwtMzApIi8+PHBhdGggZD0iTTUxMCAxMjAgcTI0IDUwIDAgMTAwIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwLC0zMCkiIG9wYWNpdHk9Ii42Ii8+PC9nPjwvc3ZnPg==" alt="Покрокові підказки">
+        <div class="tag">Портативний гаджет</div>
+        <h3>Покрокова взаємодія</h3>
+        <p>Відкрийте нові можливості</p>
+      </article>
+      <article class="card">
+        <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2MDAgNDAwIj48cmVjdCB3aWR0aD0iNjAwIiBoZWlnaHQ9IjQwMCIgZmlsbD0iI2Y2ZDllMiIvPgo8Y2lyY2xlIGN4PSI1MjAiIGN5PSIzNDAiIHI9IjEzMCIgZmlsbD0iI2ZiZTllZiIvPgo8cGF0aCBkPSJNMjAwIDIzMCB2LTMwIGExMDAgMTAwIDAgMCAxIDIwMCAwIHYzMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWYzYjMwIiBzdHJva2Utd2lkdGg9IjE2IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KPHJlY3QgeD0iMTcyIiB5PSIyMTUiIHdpZHRoPSI1NiIgaGVpZ2h0PSI5NSIgcng9IjI0IiBmaWxsPSIjMWYzYjMwIi8+PHJlY3QgeD0iMzcyIiB5PSIyMTUiIHdpZHRoPSI1NiIgaGVpZ2h0PSI5NSIgcng9IjI0IiBmaWxsPSIjMWYzYjMwIi8+CjxyZWN0IHg9IjE4NiIgeT0iMjMwIiB3aWR0aD0iMjgiIGhlaWdodD0iNjUiIHJ4PSIxMiIgZmlsbD0iIzJmN2E1YiIvPjxyZWN0IHg9IjM4NiIgeT0iMjMwIiB3aWR0aD0iMjgiIGhlaWdodD0iNjUiIHJ4PSIxMiIgZmlsbD0iIzJmN2E1YiIvPgo8ZyBmaWxsPSIjYzk3MDhmIj48cmVjdCB4PSIyMTQiIHk9IjMzMi41IiB3aWR0aD0iNyIgaGVpZ2h0PSIxNS4wIiByeD0iMy41Ii8+PHJlY3QgeD0iMjI3IiB5PSIzMjUuMCIgd2lkdGg9IjciIGhlaWdodD0iMzAuMCIgcng9IjMuNSIvPjxyZWN0IHg9IjI0MCIgeT0iMzMwLjAiIHdpZHRoPSI3IiBoZWlnaHQ9IjIwLjAiIHJ4PSIzLjUiLz48cmVjdCB4PSIyNTMiIHk9IjMxNy41IiB3aWR0aD0iNyIgaGVpZ2h0PSI0NS4wIiByeD0iMy41Ii8+PHJlY3QgeD0iMjY2IiB5PSIzMTAuMCIgd2lkdGg9IjciIGhlaWdodD0iNjAuMCIgcng9IjMuNSIvPjxyZWN0IHg9IjI3OSIgeT0iMzIyLjUiIHdpZHRoPSI3IiBoZWlnaHQ9IjM1LjAiIHJ4PSIzLjUiLz48cmVjdCB4PSIyOTIiIHk9IjMwNS4wIiB3aWR0aD0iNyIgaGVpZ2h0PSI3MC4wIiByeD0iMy41Ii8+PHJlY3QgeD0iMzA1IiB5PSIzMTUuMCIgd2lkdGg9IjciIGhlaWdodD0iNTAuMCIgcng9IjMuNSIvPjxyZWN0IHg9IjMxOCIgeT0iMzI1LjAiIHdpZHRoPSI3IiBoZWlnaHQ9IjMwLjAiIHJ4PSIzLjUiLz48cmVjdCB4PSIzMzEiIHk9IjMxMi41IiB3aWR0aD0iNyIgaGVpZ2h0PSI1NS4wIiByeD0iMy41Ii8+PHJlY3QgeD0iMzQ0IiB5PSIzMjAuMCIgd2lkdGg9IjciIGhlaWdodD0iNDAuMCIgcng9IjMuNSIvPjxyZWN0IHg9IjM1NyIgeT0iMzMwLjAiIHdpZHRoPSI3IiBoZWlnaHQ9IjIwLjAiIHJ4PSIzLjUiLz48cmVjdCB4PSIzNzAiIHk9IjMyMi41IiB3aWR0aD0iNyIgaGVpZ2h0PSIzNS4wIiByeD0iMy41Ii8+PHJlY3QgeD0iMzgzIiB5PSIzMzIuNSIgd2lkdGg9IjciIGhlaWdodD0iMTUuMCIgcng9IjMuNSIvPjwvZz48L3N2Zz4=" alt="Аудіодоступ">
+        <div class="tag">Гаджет для супервізу</div>
+        <h3>Нове життя з аудіодоступом</h3>
+        <p>Уточнити вартість</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="ai" id="ai">
+  <div class="wrap">
+    <h2>Ваш AI-<br>помічник</h2>
+    <div class="side">
+      <p>Голосом розуміємо світ навколо</p>
+      <a href="#faq">Дізнатись більше</a>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <h2>FAQ</h2>
+    <p class="sub">Ласкаво просимо до відповідей</p>
+    <details open>
+      <summary>Чи потрібен інтернет?</summary>
+      <p>Деякі функції працюють офлайн, інші потребують з'єднання для оновлень та сервісів. Уточнюйте в адмін-панелі.</p>
+    </details>
+    <details open>
+      <summary>Які можливості пристрою?</summary>
+      <p>Голосове управління, розпізнавання предметів, доступ до інформації, портативний формат — все для зручного користування щодня.</p>
+    </details>
+    <details open>
+      <summary>Як швидко отримати відповідь?</summary>
+      <p>Голосове керування, швидке розпізнавання предметів та доступ до інформації в одному дотику. Працює з автономністю та онлайн-режимами.</p>
+    </details>
+    <details open>
+      <summary>Які питання часто виникають щодо використання пристрою?</summary>
+      <p>Пропонуємо прості відповіді: як користуватися, що розпізнає, чи потрібен інтернет для роботи та інші поради з налаштування.</p>
+    </details>
+    <details open>
+      <summary>Як зробити замовлення?</summary>
+      <p>Зверніться до консультації або замовте через кнопку на сторінці. Після підтвердження — доставка та підтримка.</p>
+    </details>
+    <div class="help">
+      Потрібна допомога зараз? Зв'яжіться з нами<br>
+      <a href="https://t.me/m4liketh" class="btn" target="_blank" rel="noopener">Contact support</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">© 2026 Dataway</div>
+</footer>
+
+</body>
+</html>
